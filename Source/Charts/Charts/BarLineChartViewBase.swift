@@ -130,15 +130,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         self.addGestureRecognizer(_doubleTapGestureRecognizer)
         self.addGestureRecognizer(_panGestureRecognizer)
         
-        _doubleTapGestureRecognizer.isEnabled = _doubleTapToZoomEnabled
+        //Just for Amplifon
+        _doubleTapGestureRecognizer.isEnabled = false
+        //_doubleTapGestureRecognizer.isEnabled = _doubleTapToZoomEnabled
         _panGestureRecognizer.isEnabled = _dragXEnabled || _dragYEnabled
 
-        #if !os(tvOS)
-            _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
-            _pinchGestureRecognizer.delegate = self
-            self.addGestureRecognizer(_pinchGestureRecognizer)
-            _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
-        #endif
+        //Just for Amplifon
+//        #if !os(tvOS)
+//            _pinchGestureRecognizer = NSUIPinchGestureRecognizer(target: self, action: #selector(BarLineChartViewBase.pinchGestureRecognized(_:)))
+//            _pinchGestureRecognizer.delegate = self
+//            self.addGestureRecognizer(_pinchGestureRecognizer)
+//            _pinchGestureRecognizer.isEnabled = _pinchZoomEnabled || _scaleXEnabled || _scaleYEnabled
+//        #endif
     }
     
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?)
@@ -201,15 +204,18 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
         
         xAxisRenderer.renderAxisLine(context: context)
         leftYAxisRenderer.renderAxisLine(context: context)
-        rightYAxisRenderer.renderAxisLine(context: context)
+        
+        //Just for Amplifon
+        //rightYAxisRenderer.renderAxisLine(context: context)
 
+        //Just for Amplifon
         // The renderers are responsible for clipping, to account for line-width center etc.
-        if xAxis.drawGridLinesBehindDataEnabled
-        {
-            xAxisRenderer.renderGridLines(context: context)
-            leftYAxisRenderer.renderGridLines(context: context)
-            rightYAxisRenderer.renderGridLines(context: context)
-        }
+//        if xAxis.drawGridLinesBehindDataEnabled
+//        {
+//            xAxisRenderer.renderGridLines(context: context)
+//            leftYAxisRenderer.renderGridLines(context: context)
+//            rightYAxisRenderer.renderGridLines(context: context)
+//        }
         
         if xAxis.isEnabled && xAxis.isDrawLimitLinesBehindDataEnabled
         {
@@ -235,13 +241,14 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
 
         renderer.drawData(context: context)
         
+        //Just for Amplifon
         // The renderers are responsible for clipping, to account for line-width center etc.
-        if !xAxis.drawGridLinesBehindDataEnabled
-        {
-            xAxisRenderer.renderGridLines(context: context)
-            leftYAxisRenderer.renderGridLines(context: context)
-            rightYAxisRenderer.renderGridLines(context: context)
-        }
+//        if !xAxis.drawGridLinesBehindDataEnabled
+//        {
+//            xAxisRenderer.renderGridLines(context: context)
+//            leftYAxisRenderer.renderGridLines(context: context)
+//            rightYAxisRenderer.renderGridLines(context: context)
+//        }
         
         // if highlighting is enabled
         if (valuesToHighlight())

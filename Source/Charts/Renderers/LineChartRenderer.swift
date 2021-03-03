@@ -22,6 +22,9 @@ open class LineChartRenderer: LineRadarRenderer
 
     @objc open weak var dataProvider: LineChartDataProvider?
     
+    // Just for Amplifon
+    var disableValueDrawing = true
+    
     @objc public init(dataProvider: LineChartDataProvider, animator: Animator, viewPortHandler: ViewPortHandler)
     {
         super.init(animator: animator, viewPortHandler: viewPortHandler)
@@ -605,7 +608,8 @@ open class LineChartRenderer: LineRadarRenderer
     
     open override func drawExtras(context: CGContext)
     {
-        drawCircles(context: context)
+        // just for amplifon
+        //drawCircles(context: context)
     }
     
     private func drawCircles(context: CGContext)

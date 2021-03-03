@@ -32,11 +32,12 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler, barCornerRadius: CGFloat)
     {
         self.chart = chart
         self.viewPortHandler = viewPortHandler
         self.animator = animator
+        self.barCornerRadius = barCornerRadius
 
         super.init()
         
@@ -166,8 +167,9 @@ open class CombinedChartRenderer: NSObject, DataRenderer
 
     open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
-        guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+//        guard let data = dataProvider?.data else { return false }
+//        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+          return false
     }
 
     /// All sub-renderers.

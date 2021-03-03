@@ -39,6 +39,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///
     /// The ````internal```` specifier is to allow subclasses (HorizontalBar) to populate the same array
     internal lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
+    
+    // Just for Amplifon
+    var disableValueDrawing = true
 
     private typealias Buffer = [CGRect]
     
@@ -428,6 +431,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
     open override func drawValues(context: CGContext)
     {
+        if disableValueDrawing {
+            return
+        }
+        
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
