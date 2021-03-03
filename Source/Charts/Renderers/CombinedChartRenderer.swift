@@ -23,7 +23,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     @objc open weak var chart: CombinedChartView?
     
     /// if set to true, all values are drawn above their bars, instead of below their top
-    @objc open var drawValueAboveBarEnabled = true
+    @objc open var drawValueAboveBarEnabled = false
 
     /// if set to true and drawValueAboveBarEnabled is false, values those do not fit into the value bar are drawn above their bars, instead of below their top
     @objc open var isDrawValueSideFlexible = false
@@ -31,7 +31,7 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     /// distance from top (bottom in negative) for values drawn outside/inside the bar
     @objc open var valuesOffset: CGFloat = 4.5
     
-    @objc open var barCornerRadius: CGFloat = 0.0
+    @objc open var barCornerRadius: CGFloat = 0
 
     /// if set to true, a grey area is drawn behind each bar that indicates the maximum value
     @objc open var drawBarShadowEnabled = false
@@ -40,11 +40,12 @@ open class CombinedChartRenderer: NSObject, DataRenderer
     
     internal var _drawOrder: [CombinedChartView.DrawOrder] = [.bar, .bubble, .line, .candle, .scatter]
     
-    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler)
+    @objc public init(chart: CombinedChartView, animator: Animator, viewPortHandler: ViewPortHandler, barCornerRadius: CGFloat)
     {
         self.chart = chart
         self.viewPortHandler = viewPortHandler
         self.animator = animator
+        self.barCornerRadius = barCornerRadius
 
         super.init()
         
@@ -169,8 +170,9 @@ open class CombinedChartRenderer: NSObject, DataRenderer
 
     open func isDrawingValuesAllowed(dataProvider: ChartDataProvider?) -> Bool
     {
-        guard let data = dataProvider?.data else { return false }
-        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+//        guard let data = dataProvider?.data else { return false }
+//        return data.entryCount < Int(CGFloat(dataProvider?.maxVisibleCount ?? 0) * viewPortHandler.scaleX)
+          return false
     }
 
     /// All sub-renderers.

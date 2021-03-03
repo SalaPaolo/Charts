@@ -102,43 +102,43 @@ open class CombinedChartData: BarLineScatterCandleBubbleChartData
     open override func calcMinMax()
     {
         _dataSets.removeAll()
-        
-        yMax = -Double.greatestFiniteMagnitude
-        yMin = Double.greatestFiniteMagnitude
-        xMax = -Double.greatestFiniteMagnitude
-        xMin = Double.greatestFiniteMagnitude
-        
-        leftAxisMax = -Double.greatestFiniteMagnitude
-        leftAxisMin = Double.greatestFiniteMagnitude
-        rightAxisMax = -Double.greatestFiniteMagnitude
-        rightAxisMin = Double.greatestFiniteMagnitude
-        
+
+        yMax = -.greatestFiniteMagnitude
+        yMin = .greatestFiniteMagnitude
+        xMax = -.greatestFiniteMagnitude
+        xMin = .greatestFiniteMagnitude
+
+        leftAxisMax = -.greatestFiniteMagnitude
+        leftAxisMin = .greatestFiniteMagnitude
+        rightAxisMax = -.greatestFiniteMagnitude
+        rightAxisMin = .greatestFiniteMagnitude
+
         let allData = self.allData
-        
+
         for data in allData
         {
             data.calcMinMax()
-            
+
             _dataSets.append(contentsOf: data)
-            
+
             if data.yMax > yMax
             {
                 yMax = data.yMax
             }
-            
+
             if data.yMin < yMin
             {
                 yMin = data.yMin
             }
-            
+
             if data.xMax > xMax
             {
-                xMax = data.xMax
+                xMax = data.xMax+0.5
             }
-            
+
             if data.xMin < xMin
             {
-                xMin = data.xMin
+                xMin = (data.xMin-0.5)
             }
 
             for set in data

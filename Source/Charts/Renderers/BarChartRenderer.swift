@@ -39,6 +39,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     ///
     /// The ````internal```` specifier is to allow subclasses (HorizontalBar) to populate the same array
     internal lazy var accessibilityOrderedElements: [[NSUIAccessibilityElement]] = accessibilityCreateEmptyOrderedElements()
+    
+    // Just for Amplifon
+    var disableValueDrawing = true
 
     private typealias Buffer = [CGRect]
     
@@ -340,7 +343,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 let cornerRadius = dataProvider.barCornerRadius
                 if cornerRadius != 0 {
-                    let clipPath = UIBezierPath(roundedRect: _barShadowRectBuffer, cornerRadius: cornerRadius).cgPath
+                    NSLog("Paolo we are here %s 1111", barWidthHalf)
+
+                    let clipPath = UIBezierPath(roundedRect: _barShadowRectBuffer, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
 
                     context.addPath(clipPath)
                     context.fillPath()
@@ -363,7 +368,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 let cornerRadius = dataProvider.barCornerRadius
                 if cornerRadius != 0 {
-                    let clipPath = UIBezierPath(roundedRect: barRect, cornerRadius: cornerRadius).cgPath
+                    
+                    NSLog("Paolo we are here %s 2222", barRect.origin.x)
+
+                    let clipPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
 
                     context.addPath(clipPath)
                     context.fillPath()
@@ -405,7 +413,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             context.saveGState()
 
             var maxEdgeInset: NSUIEdgeInsets = .zero
-            let cornerRadius = dataProvider.barCornerRadius
+            var cornerRadius = dataProvider.barCornerRadius
 
             for outline in dataSet.barValueOutlines
             {
@@ -419,7 +427,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(outline.color.cgColor)
                 if cornerRadius != 0
                 {
-                    let outlineClipPath = UIBezierPath(roundedRect: outlineRect, cornerRadius: cornerRadius).cgPath
+                    NSLog("Paolo we are here %s 333333", barRect.origin.x)
+                    
+                    let outlineClipPath = UIBezierPath(roundedRect: outlineRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
                     context.addPath(outlineClipPath)
                     context.fillPath()
                 }
@@ -442,7 +452,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
             if cornerRadius != 0
             {
-                let barClipPath = UIBezierPath(roundedRect: barRectInsideOutline, cornerRadius: cornerRadius).cgPath
+                cornerRadius = CGFloat(barRect.width/2)
+                
+                NSLog("Paolo we are here %fl 55555", barRect.origin.x)
+
+                
+                let barClipPath = UIBezierPath(roundedRect: barRectInsideOutline, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
+            
                 context.addPath(barClipPath)
                 if drawBorder && borderWidth < barRect.height   //do not draw a border if it bigger that content
                 {
@@ -505,6 +521,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
     open override func drawValues(context: CGContext)
     {
+        if disableValueDrawing {
+            return
+        }
+        
         // if values are drawn
         if isDrawingValuesAllowed(dataProvider: dataProvider)
         {
@@ -898,7 +918,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 let cornerRadius = dataProvider.barCornerRadius
                 if cornerRadius != 0
                 {
-                    let clipPath = UIBezierPath(roundedRect: barRect, cornerRadius: cornerRadius).cgPath
+                    NSLog("Paolo we are here %s 444444", barRect.origin.x)
+                     
+                    let clipPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
                     context.addPath(clipPath)
                     context.fillPath()
                 }

@@ -70,7 +70,7 @@ open class AxisBase: ComponentBase
     /// Are the grid lines drawn behind the data or in front of the data?
     ///
     /// **default**: true
-    @objc open var drawGridLinesBehindDataEnabled = true
+    @objc open var drawGridLinesBehindDataEnabled = false
 
     /// the flag can be used to turn off the antialias for grid lines
     @objc open var gridAntialiasEnabled = true

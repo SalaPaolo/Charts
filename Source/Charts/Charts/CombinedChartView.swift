@@ -18,6 +18,8 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     /// the fill-formatter used for determining the position of the fill-line
     internal var _fillFormatter: FillFormatter!
     
+    @objc open var barCornerRadius: CGFloat = 0
+    
     /// enum that allows to specify the order in which the different data objects for the combined-chart are drawn
     @objc(CombinedChartDrawOrder)
     public enum DrawOrder: Int
@@ -27,6 +29,11 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         case line
         case candle
         case scatter
+    }
+    
+    @objc convenience init(cornerRadius: CGFloat) {
+        self.init() // Convenience initializers must call a designated initializer.
+        barCornerRadius = cornerRadius
     }
     
     open override func initialize()
@@ -40,7 +47,7 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         
         _fillFormatter = DefaultFillFormatter()
         
-        renderer = CombinedChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler)
+        renderer = CombinedChartRenderer(chart: self, animator: chartAnimator, viewPortHandler: viewPortHandler, barCornerRadius: barCornerRadius)
     }
     
     open override var data: ChartData?
@@ -214,12 +221,6 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
     
     /// `true` the highlight is be full-bar oriented, `false` ifsingle-value
     open var isHighlightFullBarEnabled: Bool { return highlightFullBarEnabled }
-
-    @objc open var barCornerRadius: CGFloat
-        {
-        get { return (renderer as! CombinedChartRenderer).barCornerRadius }
-        set { (renderer as! CombinedChartRenderer).barCornerRadius = newValue }
-    }
     
     // MARK: - ChartViewBase
     
