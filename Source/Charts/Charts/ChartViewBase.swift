@@ -435,6 +435,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
     /// Highlights the value selected by touch gesture.
     @objc open func highlightValue(_ highlight: Highlight?, callDelegate: Bool)
     {
+        NSLog("highlightValue: ")
+        
         var high = highlight
         guard
             let h = high,
@@ -445,6 +447,8 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
                 highlighted.removeAll(keepingCapacity: false)
                 if callDelegate
                 {
+                    NSLog("highlightValue: chartValueNothingSelected")
+                    
                     delegate?.chartValueNothingSelected?(self)
                 }
                 return
@@ -455,6 +459,7 @@ open class ChartViewBase: NSUIView, ChartDataProvider, AnimatorDelegate
 
         if callDelegate
         {
+            NSLog("highlightValue: chartValueSelected")
             // notify the listener
             delegate?.chartValueSelected?(self, entry: entry, highlight: h)
         }

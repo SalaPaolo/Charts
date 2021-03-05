@@ -77,7 +77,9 @@ open class ChartHighlighter : NSObject, Highlighter
         {
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
-            vals.append(contentsOf: buildHighlights(dataSet: set, dataSetIndex: i, xValue: xValue, rounding: .closest))
+            let logValue = buildHighlights(dataSet: set, dataSetIndex: i, xValue: xValue, rounding: .closest)
+            NSLog("Value to be added has dataSetIndex set to %i and xValues %i",i,xValue)
+            vals.append(contentsOf: logValue)
         }
         
         return vals
@@ -122,6 +124,8 @@ open class ChartHighlighter : NSObject, Highlighter
         
         for high in closestValues
         {
+            NSLog("Current close value to analyze %i high.x= %i high.y= %i high.xPx= %i high.xPy= %i",high.dataSetIndex, high.x, high.y, high.xPx, high.yPx)
+            
             if axis == nil || high.axis == axis
             {
                 let cDistance = getDistance(x1: x, y1: y, x2: high.xPx, y2: high.yPx)
@@ -130,6 +134,7 @@ open class ChartHighlighter : NSObject, Highlighter
                 {
                     closest = high
                     distance = cDistance
+                    NSLog("Current closest value selected has dataIndex %i and distance %i",high.dataSetIndex,distance)
                 }
             }
         }

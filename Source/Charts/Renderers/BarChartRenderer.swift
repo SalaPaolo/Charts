@@ -868,8 +868,20 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         defer { context.restoreGState() }
         var barRect = CGRect()
         
-        for high in indices
+        // this it's just a bad workaround :(
+        var trickedIndices : [Highlight] = []
+        trickedIndices.append(indices[0])
+        
+        // this it's just a bad workaround :(
+        if (barData.dataSets.count>1){
+            let highLigthModified = Highlight(x: indices[0].x, y: indices[0].y, xPx: indices[0].xPx, yPx: indices[0].yPx, dataIndex: indices[0].dataIndex, dataSetIndex: 1, stackIndex: indices[0].stackIndex, axis: indices[0].axis)
+            trickedIndices.append(highLigthModified)
+        }
+
+        for high in trickedIndices
         {
+            NSLog("DataSetIndex of current highlight %i",high.dataSetIndex)
+            
             guard
                 let set = barData[high.dataSetIndex] as? BarChartDataSetProtocol,
                 set.isHighlightEnabled
@@ -899,7 +911,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     else
                     {
                         let range = e.ranges?[high.stackIndex]
-                        
+
                         y1 = range?.from ?? 0.0
                         y2 = range?.to ?? 0.0
                     }
@@ -914,10 +926,11 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 
                 setHighlightDrawPos(highlight: high, barRect: barRect)
                 
-                let cornerRadius = dataProvider.barCornerRadius
+                var cornerRadius = dataProvider.barCornerRadius
                 if cornerRadius != 0
                 {
                     NSLog("drawHighlighted: barRect.origin.x %fl", barRect.origin.x)
+                    cornerRadius = barRect.width/2;
                      
                     let clipPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
                     context.addPath(clipPath)
