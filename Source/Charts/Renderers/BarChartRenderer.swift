@@ -889,12 +889,17 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         // this has to be done because the highlight dataSetindex it's always 0, but in our case we have multiple dataSets, so in case we have just 0 we add a new hihglight with DataSetIndex 1
         // this it's just a bad workaround :(
         var trickedIndices : [Highlight] = []
-        trickedIndices.append(indices[0])
+        if (!indices.isEmpty){
+            trickedIndices.append(indices[0])
+        }
         
+        // this has to be adjusted for stacked charts
         // this it's just a bad workaround :(
-        if (barData.dataSets.count>1){
+        if (barData.dataSets.count>1 && !indices.isEmpty){
             let highLigthModified = Highlight(x: indices[0].x, y: indices[0].y, xPx: indices[0].xPx, yPx: indices[0].yPx, dataIndex: indices[0].dataIndex, dataSetIndex: 1, stackIndex: indices[0].stackIndex, axis: indices[0].axis)
             trickedIndices.append(highLigthModified)
+        }else{
+            trickedIndices = indices
         }
 
         for high in trickedIndices
