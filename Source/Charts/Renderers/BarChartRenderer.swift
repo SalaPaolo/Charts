@@ -248,9 +248,19 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                     bottom *= phaseY
                 }
 
-                let barRect = CGRect(x: left, y: top,
+                var barRect = CGRect(x: left, y: top,
                                      width: right - left,
                                      height: bottom - top)
+                
+                // in case we need to draw the mepty bar with the max height
+                if (e.EmptyEntry){
+                    let offsetView = dataProvider as! CombinedChartView
+                    let offsetAxis = offsetView.getAxis(dataSet.axisDependency)
+                    barRect = CGRect(x: left, y: top,
+                                         width: right - left,
+                                         height: CGFloat(offsetAxis.axisMaximum))
+                }
+                
                 _buffers[index][bufferIndex] = barRect
                 bufferIndex += 1
             }
@@ -392,6 +402,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 		{
 			barFillColor = .black
 		}
+        
+        //fix this cast
+        let barChartDataSet = dataSet as! BarChartDataSet
+        if (barChartDataSet.uiImagePatternForEmptyBars != nil){
+            barFillColor = UIColor(patternImage: barChartDataSet.uiImagePatternForEmptyBars!)
+        }
 
         // In case the chart is stacked, we need to accomodate individual bars within accessibilityOrdereredElements
         let isStacked = dataSet.isStacked
@@ -450,7 +466,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
             context.setFillColor(barFillColor.cgColor)
 
-            if cornerRadius != 0
+            // fix this cast
+            let barChartDataSet = dataSet as! BarChartDataSet
+            if barChartDataSet.cornerRadius != 0
             {
                 cornerRadius = CGFloat(barRect.width/2)
                 
@@ -868,6 +886,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
         defer { context.restoreGState() }
         var barRect = CGRect()
         
+        // this has to be done because the highlight dataSetindex it's always 0, but in our case we have multiple dataSets, so in case we have just 0 we add a new hihglight with DataSetIndex 1
         // this it's just a bad workaround :(
         var trickedIndices : [Highlight] = []
         trickedIndices.append(indices[0])

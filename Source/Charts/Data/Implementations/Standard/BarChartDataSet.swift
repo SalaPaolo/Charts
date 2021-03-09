@@ -41,6 +41,11 @@ open class BarChartDataSet: BarLineScatterCandleBubbleChartDataSet, BarChartData
     /// is calculated from the Entries that are added to the DataSet
     private var _stackSize = 1
     
+    @objc open var cornerRadius = CGFloat(0)
+    
+    @objc open var uiImagePatternForEmptyBars : UIImage? = nil
+
+    
     /// the overall entry count, including counting each stack-value individually
     private var _entryCountStacks = 0
     

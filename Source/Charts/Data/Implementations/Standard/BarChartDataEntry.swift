@@ -25,6 +25,8 @@ open class BarChartDataEntry: ChartDataEntry
     /// the sum of all positive values this entry (if stacked) contains
     private var _positiveSum: Double = 0.0
     
+    @objc open var EmptyEntry = false
+    
     public required init()
     {
         super.init()
