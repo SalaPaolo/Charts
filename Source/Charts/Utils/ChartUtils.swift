@@ -289,6 +289,30 @@ extension CGContext
 
         NSUIGraphicsPopContext()
     }
+    
+    func drawAmplifonChartMultilineText(attributedString: NSAttributedString, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint) {
+        let boundingRect = attributedString.boundingRect(with: size, options: .usesLineFragmentOrigin, context: nil)
+        
+        // TEST
+        let knownTextSize = CGSize(width: boundingRect.size.width, height: boundingRect.size.height * 2) // boundingRect.size
+        
+        var rect = CGRect(origin: .zero, size: knownTextSize)
+
+        NSUIGraphicsPushContext(self)
+        
+        if anchor.x != 0.0 || anchor.y != 0.0
+        {
+            rect.origin.x = -knownTextSize.width * anchor.x
+            rect.origin.y = -knownTextSize.height * anchor.y
+        }
+
+        rect.origin.x += point.x
+        rect.origin.y += point.y
+
+        attributedString.draw(with: rect, options: .usesLineFragmentOrigin, context: nil)
+        
+        NSUIGraphicsPopContext()
+    }
 
     func drawMultilineText(_ text: String, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint, angleRadians: CGFloat, attributes: [NSAttributedString.Key : Any]?)
     {
