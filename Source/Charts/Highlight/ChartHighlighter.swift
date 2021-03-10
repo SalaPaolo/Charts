@@ -51,6 +51,10 @@ open class ChartHighlighter : NSObject, Highlighter
         let closestValues = getHighlights(xValue: xVal, x: x, y: y)
         guard !closestValues.isEmpty else { return nil }
         
+//        for item in closestValues{
+//            NSLog("ClosestVlue to be analyzed is item.x = %i",item.x);
+//        }
+        
         let leftAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: .left)
         let rightAxisMinDist = getMinimumDistance(closestValues: closestValues, y: y, axis: .right)
         
@@ -78,7 +82,7 @@ open class ChartHighlighter : NSObject, Highlighter
             // extract all y-values from all DataSets at the given x-value.
             // some datasets (i.e bubble charts) make sense to have multiple values for an x-value. We'll have to find a way to handle that later on. It's more complicated now when x-indices are floating point.
             let logValue = buildHighlights(dataSet: set, dataSetIndex: i, xValue: xValue, rounding: .closest)
-            NSLog("Value to be added has dataSetIndex set to %i and xValues %i",i,xValue)
+            //NSLog("Value to be added has dataSetIndex set to %i and xValues %i",i,xValue)
             vals.append(contentsOf: logValue)
         }
         
@@ -122,19 +126,28 @@ open class ChartHighlighter : NSObject, Highlighter
         var distance = minSelectionDistance
         var closest: Highlight?
         
+        var previousDistance = CGFloat(1000)
+        
         for high in closestValues
         {
-            NSLog("Current close value to analyze %i high.x= %i high.y= %i high.xPx= %i high.xPy= %i",high.dataSetIndex, high.x, high.y, high.xPx, high.yPx)
+            //NSLog("Current close value to analyze %i high.x= %.20f high.y= %.20f high.xPx= %.20f high.xPy= %.20f",high.dataSetIndex, high.x, high.y, high.xPx, high.yPx)
             
             if axis == nil || high.axis == axis
             {
                 let cDistance = getDistance(x1: x, y1: y, x2: high.xPx, y2: high.yPx)
+            
+//                NSLog("Distance is %fl and referement is %fl and comparison is %d", cDistance, distance,cDistance <= distance)
+//                NSLog("PreviousDistance is %fl", previousDistance)
+//                NSLog("Condition is %d", cDistance <= distance && y != 0 && cDistance <= previousDistance)
 
-                if cDistance < distance
+                // this calculation was returning the wrong index, that'swhy we added some conditions
+                
+                if cDistance <= distance && high.y != 0 && cDistance <= previousDistance
                 {
+                    previousDistance = cDistance
                     closest = high
                     distance = cDistance
-                    NSLog("Current closest value selected has dataIndex %i and distance %i",high.dataSetIndex,distance)
+                    //NSLog("Current closest value selected has dataIndex %i and distance %fl",high.dataSetIndex,distance)
                 }
             }
         }
