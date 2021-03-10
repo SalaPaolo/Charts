@@ -280,9 +280,6 @@ open class XAxisRenderer: NSObject, AxisRenderer
             guard viewPortHandler.isInBoundsX(position.x) else { continue }
             
             let label = axis.valueFormatter?.stringForValue(axis.entries[i], axis: axis) ?? ""
-
-            let descriptor = axis.labelFont.fontDescriptor.withSymbolicTraits(.traitBold)
-            let boldFont = UIFont(descriptor: descriptor!, size: 0)
             
             let attributedLabel = NSMutableAttributedString(string: label,
                                                             attributes: [.font: axis.labelFont,
@@ -290,6 +287,9 @@ open class XAxisRenderer: NSObject, AxisRenderer
                                                                          .foregroundColor: axis.labelTextColor])
             
             if let myIndex = attributedLabel.string.range(of: "\n")?.upperBound {
+                let descriptor = axis.labelFont.fontDescriptor.withSymbolicTraits(.traitBold)
+                let boldFont = UIFont(descriptor: descriptor!, size: 0)
+
                 let boldPartAttributes: [NSAttributedString.Key: Any] = [.font: boldFont,
                                                                      .foregroundColor: axis.labelTextColor,
                                                                      .paragraphStyle: paraStyle]

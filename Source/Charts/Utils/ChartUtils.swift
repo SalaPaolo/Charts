@@ -293,8 +293,7 @@ extension CGContext
     func drawAmplifonChartMultilineText(attributedString: NSAttributedString, at point: CGPoint, constrainedTo size: CGSize, anchor: CGPoint) {
         let boundingRect = attributedString.boundingRect(with: size, options: .usesLineFragmentOrigin, context: nil)
         
-        // TEST
-        let knownTextSize = CGSize(width: boundingRect.size.width, height: boundingRect.size.height * 2) // boundingRect.size
+        let knownTextSize = boundingRect.size
         
         var rect = CGRect(origin: .zero, size: knownTextSize)
 
