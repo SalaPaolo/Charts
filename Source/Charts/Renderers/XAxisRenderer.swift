@@ -193,7 +193,10 @@ open class XAxisRenderer: NSObject, AxisRenderer
             drawLabels(context: context, pos: viewPortHandler.contentBottom - yOffset - axis.labelRotatedHeight, anchor: CGPoint(x: 0.5, y: 0.0))
             
         case .bothSided:
-            drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+            // Just for Amplifon: We don't want the labels on top but we still want the axis line...
+            // So we leave .bothSided but we remove this drawLabels call.
+            // drawLabels(context: context, pos: viewPortHandler.contentTop - yOffset, anchor: CGPoint(x: 0.5, y: 1.0))
+    
             drawLabels(context: context, pos: viewPortHandler.contentBottom + yOffset, anchor: CGPoint(x: 0.5, y: 0.0))
         }
     }

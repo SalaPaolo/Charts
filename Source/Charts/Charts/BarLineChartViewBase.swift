@@ -466,7 +466,9 @@ open class BarLineChartViewBase: ChartViewBase, BarLineScatterCandleBubbleChartD
                 else if xAxis.labelPosition == .bothSided
                 {
                     offsetBottom += xlabelheight
-                    offsetTop += xlabelheight
+                    
+                    // Just for Amplifon, we want the gray line but no labels or offset.
+                    // offsetTop += xlabelheight
                 }
             }
             

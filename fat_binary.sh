@@ -3,6 +3,8 @@ xcodebuild -project Charts.xcodeproj -configuration Release -sdk iphonesimulator
 
 cd build
 
+rm -r Release-fat
+
 cp -R Release-iphoneos Release-fat
 
 cp -R Release-iphonesimulator/Charts.framework/Modules/Charts.swiftmodule Release-fat/Charts.framework/Modules/Charts.swiftmodule
